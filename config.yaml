@@ -1,0 +1,14 @@
+# pv-segmentation configuration
+seagate_path: /media/llusaga/Seagate Basic/ortofotos
+local_tiles_dir: data/tiles
+raw_masks_dir: data/masks/raw
+validated_masks_dir: data/masks/validated
+prosumers_gpkg: ../gpkg/prosumers-tgn-photointerpretation-2024.gpkg
+
+# Test tile IDs (UTM 1km grid)
+test_tiles:
+  - 31TBF6932
+  - 31TCF4158
+
+# Overlap fraction (donut) - use 0.25 for 25% overlap
+overlap_fraction: 0.25

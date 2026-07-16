@@ -1,0 +1,11 @@
+geopandas
+shapely
+rasterio
+fiona
+pyproj
+numpy
+requests
+click
+
+# For LangSAM integration: placeholder packages (real package names depend on chosen implementation)
+# langchain, torch, transformers
