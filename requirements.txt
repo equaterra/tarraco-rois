@@ -1,11 +1,19 @@
+# Geo stack
 geopandas
 shapely
 rasterio
 fiona
 pyproj
 numpy
-requests
+affine
 click
+pyyaml
+pandas
+Pillow
+tqdm
 
-# For LangSAM integration: placeholder packages (real package names depend on chosen implementation)
-# langchain, torch, transformers
+# LangSAM (GroundingDINO + SAM2)
+# Install torch FIRST (GPU example for CUDA 12.4):
+#   pip install torch==2.4.1 torchvision==0.19.1 --extra-index-url https://download.pytorch.org/whl/cu124
+# Then install lang-sam:
+#   pip install -U git+https://github.com/luca-medeiros/lang-segment-anything.git
