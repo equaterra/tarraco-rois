@@ -1,1 +1,48 @@
-.DS_Store\n__pycache__/\n*.pyc\ndata/tiles/\ndata/masks/raw/\ndata/masks/validated/
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# =============================================================================
+# Logs
+# =============================================================================
+*.log
+
+# =============================================================================
+# LangSAM outputs (generated automatically)
+# =============================================================================
+data/masks/raw/
+data/masks/validated/
+
+# Optional merged outputs
+*.gpkg-wal
+*.gpkg-shm
+
+# =============================================================================
+# Temporary files
+# =============================================================================
+tmp/
+temp/
+*.tmp
+# Large GeoPackages
+data/gpkg/*.gpkg
+

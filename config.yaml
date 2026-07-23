@@ -1,10 +1,35 @@
+# ---------------------------------------------------------------------------
 # pv-segmentation configuration
-seagate_path: /media/llusaga/Seagate Basic/ortofotos
-local_tiles_dir: data/tiles
-raw_masks_dir: data/masks/raw
-validated_masks_dir: data/masks/validated
-prosumers_gpkg: ../gpkg/prosumers-tgn-photointerpretation-2024.gpkg
+# ---------------------------------------------------------------------------
 
+# Directory containing the orthophoto mosaic.
+# Change ONLY this path when using another computer.
+# Examples:
+#   Linux   : /media/llusaga/Seagate Basic/ortofotos
+#   Windows : E:/ortofotos
+#   macOS   : /Volumes/Seagate Basic/ortofotos
+seagate_path: /media/llusaga/Seagate Basic/ortofotos
+
+# Orthophoto filename inside seagate_path
+ortho_file: ortofoto-rgb-25cm-catalunya-2025.gpkg
+
+# ---------------------------------------------------------------------------
+# Project directories (relative to the repository root)
+# ---------------------------------------------------------------------------
+
+local_tiles_dir: data/tiles
+
+raw_masks_dir: data/masks/raw
+
+validated_masks_dir: data/masks/validated
+
+prosumers_gpkg: data/gpkg/prosumers-tgn-photointerpretation-2024.gpkg
+
+# ---------------------------------------------------------------------------
+# Processing parameters
+# ---------------------------------------------------------------------------
+
+overlap_fraction: 0.25
 # Test tile IDs (UTM 1km grid)
 test_tiles:
   - 31TBF6932

@@ -16,8 +16,10 @@ RUN pip install --no-cache-dir \
 # LangSAM (GroundingDINO + SAM2)
 RUN pip install --no-cache-dir \
     git+https://github.com/luca-medeiros/lang-segment-anything.git
+# Forçar versió de transformers compatible amb torch 2.4.1
+# (lang-sam s'emporta transformers 5.x per defecte, que trenca amb aquest torch)
+RUN pip install --no-cache-dir "transformers==4.46.3"
 
 COPY . /app
 
-ENTRYPOINT ["python"]
-CMD ["scripts/run_langsam.py", "--help"]
+CMD ["bash"]

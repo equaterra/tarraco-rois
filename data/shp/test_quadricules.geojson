@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "test_quadricules",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::25831" } },
+"features": [
+{ "type": "Feature", "properties": { "COORD_1K": "31TBF6932", "COORD_10K": "31TBF63" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 269000.0, 4533000.0 ], [ 270000.0, 4533000.0 ], [ 270000.0, 4532000.0 ], [ 269000.0, 4532000.0 ], [ 269000.0, 4533000.0 ] ] ] ] } },
+{ "type": "Feature", "properties": { "COORD_1K": "31TCF4158", "COORD_10K": "31TCF45" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 341000.0, 4559000.0 ], [ 342000.0, 4559000.0 ], [ 342000.0, 4558000.0 ], [ 341000.0, 4558000.0 ], [ 341000.0, 4559000.0 ] ] ] ] } }
+]
+}
