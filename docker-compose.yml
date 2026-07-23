@@ -1,0 +1,19 @@
+services:
+  segmentation:
+    build: .
+    volumes:
+      # Mount project
+      - .:/app
+      # Mount sandbox for persistent data
+      - ./sandbox:/app/sandbox
+      # Mount dist for outputs
+      - ./dist:/app/dist
+    working_dir: /app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: python -m tarraco_rois --help

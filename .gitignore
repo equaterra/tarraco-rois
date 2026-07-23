@@ -14,7 +14,7 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# VSCode / PyCharm
+# IDE
 .vscode/
 .idea/
 
@@ -26,14 +26,29 @@ Thumbs.db
 # Logs
 # =============================================================================
 *.log
+logs/
 
 # =============================================================================
-# LangSAM outputs (generated automatically)
+# Sandbox (temporary work, NOT versioned)
 # =============================================================================
-data/masks/raw/
-data/masks/validated/
+sandbox/
 
-# Optional merged outputs
+# =============================================================================
+# Dist outputs (version selectively)
+# =============================================================================
+dist/masks/**/*.geojson
+dist/masks/**/*.yaml
+dist/masks/**/*.csv
+
+# Keep structure
+!dist/masks/
+!dist/masks/merged/
+!dist/masks/.gitkeep
+
+# =============================================================================
+# Large data files (keep in res/ or external storage)
+# =============================================================================
+*.gpkg
 *.gpkg-wal
 *.gpkg-shm
 
@@ -43,6 +58,10 @@ data/masks/validated/
 tmp/
 temp/
 *.tmp
-# Large GeoPackages
-data/gpkg/*.gpkg
 
+# =============================================================================
+# Model weights (downloaded to sandbox/models/)
+# =============================================================================
+sandbox/models/**/*.pt
+sandbox/models/**/*.pth
+sandbox/models/**/*.onnx
