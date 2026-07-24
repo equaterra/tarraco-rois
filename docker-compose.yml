@@ -1,6 +1,8 @@
 services:
   segmentation:
-    build: .
+    build:
+      context: .
+      network: host
     volumes:
       # Mount project
       - .:/app
@@ -9,11 +11,12 @@ services:
       # Mount dist for outputs
       - ./dist:/app/dist
     working_dir: /app
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+    # GPU: uncomment if NVIDIA drivers are available
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
     command: python -m tarraco_rois --help

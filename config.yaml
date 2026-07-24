@@ -15,3 +15,22 @@ default_module: langsam
 docker:
   image: tarraco-rois
   gpu: true
+
+# WMS/WMTS services for orthophoto download
+wms_services:
+  icgc:
+    name: ICGC Ortofoto Territorial (Catalunya)
+    url: https://geoserveis.icgc.cat/servei/catalunya/orto-territorial/wms
+    version: "1.3.0"
+    default_layer: ortofoto_color_vigent
+    crs: EPSG:25831
+    resolution_cm: 25
+    notes: Catalunya only, 25cm resolution, updated annually
+  ign:
+    name: IGN PNOA Maxima Actualidad (Espana)
+    url: https://www.ign.es/wms-inspire/pnoa-ma
+    version: "1.3.0"
+    default_layer: OI.OrthoimageCoverage
+    crs: EPSG:25830
+    resolution_cm: 25
+    notes: Spain-wide, mixed resolution (Sentinel2 at low zoom)

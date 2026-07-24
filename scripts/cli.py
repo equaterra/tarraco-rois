@@ -174,5 +174,82 @@ def config(check):
         click.echo(yaml.dump(cfg, default_flow_style=False))
 
 
+@cli.command()
+@click.option("--masks", type=click.Path(exists=True, path_type=Path), required=True,
+              help="Directory with detected mask GeoJSON files.")
+@click.option("--reference", type=click.Path(exists=True, path_type=Path), required=True,
+              help="Reference point dataset (GeoPackage/Shapefile with prosumer locations).")
+@click.option("--buffer", type=float, default=50.0, show_default=True,
+              help="Buffer distance in meters around masks.")
+@click.option("--snap-tolerance", type=float, default=10.0, show_default=True,
+              help="Snap tolerance for point-in-mask test (meters).")
+@click.option("--tile-id", default=None, help="Process only masks for this tile ID.")
+@click.option("--output", type=click.Path(path_type=Path), default=None,
+              help="Output directory for analysis results.")
+def analyze(masks, reference, buffer, snap_tolerance, tile_id, output):
+    """Analyze proximity between detected masks and reference points."""
+    sys.path.insert(0, str(PROJECT_ROOT / "modules" / "langsam"))
+    from proximity import (
+        load_masks,
+        load_reference_points,
+        analyze_proximity,
+        generate_report,
+        export_annotated_masks,
+    )
+
+    output_dir = output or PROJECT_ROOT / "dist" / "analysis"
+
+    click.echo(f"Loading masks from: {masks}")
+    masks_gdf = load_masks(masks, tile_id)
+    if masks_gdf.empty:
+        click.echo("No masks found.")
+        return
+    click.echo(f"  Loaded {len(masks_gdf)} masks")
+
+    click.echo(f"Loading reference from: {reference}")
+    ref_gdf = load_reference_points(reference)
+    click.echo(f"  Loaded {len(ref_gdf)} reference points")
+
+    click.echo(f"\nRunning proximity analysis (buffer={buffer}m, snap={snap_tolerance}m)...")
+    results = analyze_proximity(masks_gdf, ref_gdf, buffer, snap_tolerance)
+
+    generate_report(results, output_dir)
+    export_annotated_masks(masks_gdf, ref_gdf, output_dir, buffer)
+
+
+@cli.command()
+@click.argument("lat", type=float)
+@click.argument("lon", type=float)
+@click.option("--size", type=int, default=1000, show_default=True, help="Area size in meters (square)")
+@click.option("--format", "fmt", type=click.Choice(["geotiff", "jpeg", "png"]), default="geotiff",
+              show_default=True, help="Output format")
+@click.option("--service", type=click.Choice(["icgc", "ign"]), default=None,
+              help="WMS service (auto-detect based on location)")
+@click.option("--layer", default=None, help="WMS layer name (uses service default)")
+@click.option("--output-dir", type=click.Path(path_type=Path), default=None,
+              help="Output directory (default: sandbox/data/ortho/)")
+@click.option("--output-name", default=None, help="Output filename without extension")
+def fetch(lat, lon, size, fmt, service, layer, output_dir, output_name):
+    """Download orthophoto from WMS service (ICGC/IGN) by coordinates."""
+    sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+    from fetch_ortho import fetch_ortho, validate_download
+
+    out = fetch_ortho(
+        center_lat=lat,
+        center_lon=lon,
+        size_m=size,
+        output_format=fmt,
+        service_key=service,
+        layer=layer,
+        output_dir=output_dir,
+        output_name=output_name,
+    )
+    val = validate_download(out)
+    if val["valid"]:
+        click.echo(f"\nOK: {val['width']}x{val['height']} px, {val['format']}, {val['size_kb']:.0f} KB")
+    else:
+        click.echo(f"\nWARNING: File may be invalid: {val}")
+
+
 if __name__ == "__main__":
     cli()

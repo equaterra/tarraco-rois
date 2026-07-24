@@ -14,7 +14,7 @@ sys.path.insert(0, str(MODULES_DIR))
 def test_langsam_import():
     """Test that langsam module can be imported."""
     import langsam
-    assert hasattr(langsam, "run_pipeline")
+    assert hasattr(langsam, "run_langsam")
 
 
 def test_langsam_config():

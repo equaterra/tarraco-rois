@@ -122,24 +122,57 @@ prompts:
 
 ## Fases
 
-### Fase 1: Reestructuració (actual)
+### Fase 1: Reestructuració ✅ COMPLETADA
 - [x] Dissenyar estructura de carpetes
-- [ ] Crear carpetes i moure fitxers
-- [ ] Crear CLI base
-- [ ] Crear sistema de configuració
-- [ ] Actualitzar Docker
+- [x] Crear carpetes i moure fitxers
+- [x] Crear CLI base
+- [x] Crear sistema de configuració
+- [x] Actualitzar Docker
+- [x] Smoketest de validació
 
-### Fase 2: Validació LangSAM
-- [ ] Tests de configuració
-- [ ] Test amb 2 rajoles de test
-- [ ] Validar outputs (GeoJSON + metadades)
+### Fase 1.5: Descàrrega d'ortofotos ✅ COMPLETADA
+- [x] Crear scripts/fetch_ortho.py
+- [x] Suport WMS ICGC (Catalunya, 25cm) i IGN PNOA (Espanya)
+- [x] Detecció automàtica de servei segons ubicació
+- [x] Conversió CRS automàtica (EPSG:4326 → UTM)
+- [x] Validació de descàrregues
+- [x] Integració al CLI principal
+- [x] Configuració WMS a config.yaml
+- [x] Prova real: 1km² Reus → 45.8 MB GeoTIFF (4000x4000 px)
+
+### Fase 2: Validació LangSAM (en curs)
+- [x] Crear test d'integració LangSAM
+- [x] Verificar estructures de sortida (GeoJSON + metadades)
+- [x] Descarregar ortofoto de test (fetch_ortho)
+- [ ] Verificar que Docker funciona: `docker compose build`
+- [ ] Executar LangSAM en 2 rajoles de test
+- [ ] Verificar CLI: `python -m tarraco_rois modules`
+- [ ] Verificar CLI: `python -m tarraco_rois config --check`
 
 ### Fase 3: Experimentació
-- [ ] Provar altres models
-- [ ] Comparar resultats
-- [ ] Optimitzar paràmetres
+- [ ] Provar altres models (SAM2, GroundingDINO)
+- [ ] Comparar resultats entre models
+- [ ] Optimitzar paràmetres (box_threshold, text_threshold)
+- [ ] Afegir nous prompts de detecció
+- [ ] Testar filtres d'àrea i merge de polígons
 
 ### Fase 4: Producció
-- [ ] Escalar a tot Catalunya
+- [ ] Escalar a tot Catalunya (quadrícula completa)
+- [ ] Optimitzar rendiment (memòria, paral·lelització)
 - [ ] Distribució via Zenodo/altres
 - [ ] Documentació final
+
+### Fase 5: Anàlisi i Report (condicional)
+> Aquesta fase depèn de tenir una capa de geometries de referència
+> (punts de prosumers o màscares manuals) per comparar amb les deteccions.
+
+- [x] Crear mòdul proximity.py
+- [x] Implementar anàlisi de proximitat punts vs màscares
+- [x] Métriques: precision, recall, F1, TP/FP/FN
+- [x] Export: CSV + JSON + GeoPackage anotat
+- [ ] Importar capa de geometries de referència (prosumers)
+- [ ] Executar anàlisi amb dades reals
+- [ ] Generar report de qualitat per rajola
+- [ ] Visualització QGIS amb resultats d'anàlisi
+- [ ] Decidir si l'anàlisi de proximitat és suficient o cal
+      entrenar un model propi amb les dades de validació

@@ -81,6 +81,7 @@ def test_required_files():
         ("docker-compose.yml", "Docker compose"),
         ("requirements.txt", "Requirements"),
         ("scripts/cli.py", "CLI entry point"),
+        ("scripts/fetch_ortho.py", "WMS fetch script"),
         ("__init__.py", "Package init"),
         ("tarraco_rois.py", "Main module"),
         ("modules/__init__.py", "Modules init"),
@@ -91,6 +92,7 @@ def test_required_files():
         ("modules/langsam/evaluate.py", "LangSAM evaluate"),
         ("modules/langsam/summarize.py", "LangSAM summarize"),
         ("modules/langsam/tiles.py", "LangSAM tiles"),
+        ("modules/langsam/proximity.py", "Proximity analysis"),
         ("tests/__init__.py", "Tests init"),
         ("tests/config/test_config.py", "Config tests"),
         ("tests/langsam/test_langsam.py", "LangSAM tests"),
@@ -112,7 +114,7 @@ def test_module_langsam_files():
     init_file = langsam_dir / "__init__.py"
     if init_file.exists():
         content = init_file.read_text()
-        check("__init__.py imports run_pipeline", "run_pipeline" in content)
+        check("__init__.py imports run_langsam", "run_langsam" in content)
     else:
         check("__init__.py exists", False, "Missing __init__.py")
 
@@ -149,6 +151,16 @@ def test_module_langsam_files():
     else:
         check("langsam.py exists", False, "Missing langsam.py")
 
+    # Check proximity.py exists
+    proximity_file = langsam_dir / "proximity.py"
+    if proximity_file.exists():
+        content = proximity_file.read_text()
+        check("proximity.py has analyze_proximity", "def analyze_proximity" in content)
+        check("proximity.py has generate_report", "def generate_report" in content)
+        check("proximity.py has export_annotated_masks", "def export_annotated_masks" in content)
+    else:
+        check("proximity.py exists", False, "Missing proximity.py")
+
 
 def test_config_yaml():
     """Test global config.yaml."""
@@ -160,6 +172,9 @@ def test_config_yaml():
         check("Config has project_name", "project_name:" in content)
         check("Config has ortho_path", "ortho_path:" in content)
         check("Config has output_path", "output_path:" in content)
+        check("Config has wms_services", "wms_services:" in content)
+        check("Config has icgc service", "icgc:" in content)
+        check("Config has ign service", "ign:" in content)
     else:
         check("config.yaml exists", False, "Missing config.yaml")
 
@@ -176,6 +191,8 @@ def test_cli():
         check("CLI has run command", "def run" in content)
         check("CLI has modules command", "def modules" in content)
         check("CLI has config command", "def config" in content)
+        check("CLI has analyze command", "def analyze" in content)
+        check("CLI has fetch command", "def fetch" in content)
     else:
         check("cli.py exists", False, "Missing cli.py")
 
