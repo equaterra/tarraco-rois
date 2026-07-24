@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "test_grid",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::25831" } },
+"features": [
+{ "type": "Feature", "properties": { "COORD_1K": "31TCF4057", "COORD_10K": "31TCF45" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 340000.0, 4558000.0 ], [ 341000.0, 4558000.0 ], [ 341000.0, 4557000.0 ], [ 340000.0, 4557000.0 ], [ 340000.0, 4558000.0 ] ] ] } },
+{ "type": "Feature", "properties": { "COORD_1K": "31TCF4056", "COORD_10K": "31TCF45" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 340000.0, 4557000.0 ], [ 341000.0, 4557000.0 ], [ 341000.0, 4556000.0 ], [ 340000.0, 4556000.0 ], [ 340000.0, 4557000.0 ] ] ] } },
+{ "type": "Feature", "properties": { "COORD_1K": "31TCF4157", "COORD_10K": "31TCF45" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 341000.0, 4558000.0 ], [ 342000.0, 4558000.0 ], [ 342000.0, 4557000.0 ], [ 341000.0, 4557000.0 ], [ 341000.0, 4558000.0 ] ] ] } },
+{ "type": "Feature", "properties": { "COORD_1K": "31TCF4156", "COORD_10K": "31TCF45" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 341000.0, 4557000.0 ], [ 342000.0, 4557000.0 ], [ 342000.0, 4556000.0 ], [ 341000.0, 4556000.0 ], [ 341000.0, 4557000.0 ] ] ] } }
+]
+}

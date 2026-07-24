@@ -1,39 +1,36 @@
-# ---------------------------------------------------------------------------
-# pv-segmentation configuration
-# ---------------------------------------------------------------------------
+# tarraco-rois configuration
 
-# Directory containing the orthophoto mosaic.
-# Change ONLY this path when using another computer.
-# Examples:
-#   Linux   : /media/llusaga/Seagate Basic/ortofotos
-#   Windows : E:/ortofotos
-#   macOS   : /Volumes/Seagate Basic/ortofotos
-seagate_path: /media/llusaga/Seagate Basic/ortofotos
+project_name: tarraco-rois
+version: "0.1.0"
 
-# Orthophoto filename inside seagate_path
-ortho_file: ortofoto-rgb-25cm-catalunya-2025.gpkg
+# Paths (relative to project root)
+ortho_path: sandbox/data/ortho/
+output_path: dist/masks/
+tiles_path: res/data/tiles/
 
-# ---------------------------------------------------------------------------
-# Project directories (relative to the repository root)
-# ---------------------------------------------------------------------------
+# Default module
+default_module: langsam
 
-local_tiles_dir: data/tiles
+# Docker settings
+docker:
+  image: tarraco-rois
+  gpu: true
 
-raw_masks_dir: data/masks/raw
-
-validated_masks_dir: data/masks/validated
-
-prosumers_gpkg: data/gpkg/prosumers-tgn-photointerpretation-2024.gpkg
-
-# ---------------------------------------------------------------------------
-# Processing parameters
-# ---------------------------------------------------------------------------
-
-overlap_fraction: 0.25
-# Test tile IDs (UTM 1km grid)
-test_tiles:
-  - 31TBF6932
-  - 31TCF4158
-
-# Overlap fraction (donut) - use 0.25 for 25% overlap
-overlap_fraction: 0.25
+# WMS/WMTS services for orthophoto download
+wms_services:
+  icgc:
+    name: ICGC Ortofoto Territorial (Catalunya)
+    url: https://geoserveis.icgc.cat/servei/catalunya/orto-territorial/wms
+    version: "1.3.0"
+    default_layer: ortofoto_color_vigent
+    crs: EPSG:25831
+    resolution_cm: 25
+    notes: Catalunya only, 25cm resolution, updated annually
+  ign:
+    name: IGN PNOA Maxima Actualidad (Espana)
+    url: https://www.ign.es/wms-inspire/pnoa-ma
+    version: "1.3.0"
+    default_layer: OI.OrthoimageCoverage
+    crs: EPSG:25830
+    resolution_cm: 25
+    notes: Spain-wide, mixed resolution (Sentinel2 at low zoom)
