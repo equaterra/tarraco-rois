@@ -4,6 +4,14 @@ Fetch orthophotos from WMS/WMTS services (ICGC, IGN PNOA, etc.).
 
 Downloads orthophoto tiles to sandbox/data/ortho/ for use in the pipeline.
 Supports GeoTIFF (georeferenced) and JPEG output formats.
+
+NOTE on OGC RESTful vs WMS:
+  The ICGC Territorial API (https://api.icgc.cat/territorial/) supports
+  OGC API Features for vector data, but orthophotos are only available via
+  WMS (https://geoserveis.icgc.cat/servei/catalunya/orto-territorial/wms).
+  WMTS is available for base maps but only in Web Mercator (EPSG:3857) with
+  256px tiles — not suitable for high-res GeoTIFF output.
+  Therefore WMS remains the primary method for orthophoto download.
 """
 
 import argparse

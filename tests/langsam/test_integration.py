@@ -45,12 +45,19 @@ def test_module_has_required_functions():
         "tif_to_pil",
         "pixel_masks_to_polygons",
         "filter_polygons",
+        "filter_aspect_ratio",
+        "filter_tile_occupancy",
+        "nms_polygons",
         "merge_nearby_polygons",
+        "create_patches",
+        "merge_patch_results",
         "build_donut",
         "run_langsam",
+        "run_langsam_on_image",
         "to_geojson",
         "save_geojson",
         "process_tile",
+        "get_model_versions",
     ]
 
     for func_name in required_functions:
