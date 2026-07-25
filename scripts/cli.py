@@ -101,8 +101,8 @@ def run(module, ortho, tiles, tile_id, overwrite, params):
             sys.path.insert(0, str(mod_path.parent))
             mod = __import__(mod_name)
 
-            if hasattr(mod, "run_pipeline"):
-                mod.run_pipeline(
+            if hasattr(mod, "run_langsam"):
+                mod.run_langsam(
                     ortho_path=ortho_path,
                     config=mod_config,
                     output_dir=project_root / config.get("output_path", "dist/masks") / mod_name,
@@ -111,7 +111,7 @@ def run(module, ortho, tiles, tile_id, overwrite, params):
                     overwrite=overwrite,
                 )
             else:
-                click.echo(f"WARNING: Module {mod_name} has no run_pipeline function")
+                click.echo(f"WARNING: Module {mod_name} has no run_langsam function")
         except ImportError as e:
             click.echo(f"ERROR: Could not import module {mod_name}: {e}")
             sys.exit(1)
