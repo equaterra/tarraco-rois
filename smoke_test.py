@@ -83,7 +83,7 @@ def test_required_files():
         ("scripts/cli.py", "CLI entry point"),
         ("scripts/fetch_ortho.py", "WMS fetch script"),
         ("__init__.py", "Package init"),
-        ("tarraco_rois.py", "Main module"),
+        ("georefocus.py", "Main module"),
         ("modules/__init__.py", "Modules init"),
         ("modules/langsam/__init__.py", "LangSAM init"),
         ("modules/langsam/langsam.py", "LangSAM implementation"),
@@ -249,7 +249,7 @@ def test_res_data_copied():
 def main():
     """Run all smoke tests."""
     print("=" * 60)
-    print("tarraco-rois Smoke Test")
+    print("georefocus Smoke Test")
     print("=" * 60)
 
     test_directory_structure()

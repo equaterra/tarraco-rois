@@ -1,0 +1,35 @@
+# OWLv2 module configuration
+module: owlv2
+description: "PV detection using OWL-ViT v2 (google/owlv2-base-patch16-ensemble)"
+
+model_name: google/owlv2-base-patch16-ensemble
+
+# Score threshold — OWLv2 returns a score for each detection
+score_threshold: 0.15
+
+# Sub-tiling configuration
+subtile_size_px: 288
+subtile_overlap_px: 48
+
+# NMS IoU threshold
+nms_iou_threshold: 0.3
+
+# Area filters (m²)
+min_polygon_area_m2: 0.5
+max_polygon_area_m2: 10.0
+
+# Max tile occupancy fraction
+max_tile_occupancy: 0.05
+
+# Max aspect ratio
+max_aspect_ratio: 4.0
+
+# Merge distance (m)
+merge_distance_m: 1.0
+
+# Prompts
+prompts:
+  - "solar panel"
+  - "photovoltaic panel"
+  - "solar cell"
+  - "photovoltaic module"

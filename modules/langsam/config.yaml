@@ -3,41 +3,42 @@
 module: langsam
 description: "PV detection using GroundingDINO + SAM2 with text prompts and sub-tiling"
 
-# GroundingDINO thresholds (increased from 0.35/0.30 to reduce false positives)
-box_threshold: 0.40
-text_threshold: 0.30
+# GroundingDINO thresholds — strict for individual panel detection
+box_threshold: 0.55
+text_threshold: 0.45
 
 # Sub-tiling configuration
-# GroundingDINO resizes input to ~800px. With 800x800 sub-tiles,
-# PV panels (4-8px in original) become ~6-12px in DINO input.
-subtile_size_px: 1024
-subtile_overlap_px: 128
+# GroundingDINO resizes input to ~800px. Smaller tiles make panels
+# relatively larger in the DINO input, improving detection.
+subtile_size_px: 512
+subtile_overlap_px: 64
 
 # NMS IoU threshold for deduplicating overlapping detections
-nms_iou_threshold: 0.5
+nms_iou_threshold: 0.3
 
-# Area filters (m²) — reject noise and absurdly large detections
-min_polygon_area_m2: 2.0
-max_polygon_area_m2: 20000.0
+# Area filters (m²) — individual PV panels are typically 1.5-2.5 m²
+min_polygon_area_m2: 0.5
+max_polygon_area_m2: 10.0
 
 # Max fraction of tile area a single detection can occupy
-# (rejects football fields, large buildings, etc.)
-max_tile_occupancy: 0.25
+# (individual panels are small relative to the tile)
+max_tile_occupancy: 0.05
 
-# Max aspect ratio (w/h or h/w) — rejects very elongated shapes
-max_aspect_ratio: 8.0
+# Max aspect ratio (w/h or h/w) — panels are typically 1.7:1 ratio
+max_aspect_ratio: 4.0
 
 # Merge nearby polygons within this distance (meters)
-merge_distance_m: 3.0
+# Keep small to preserve individual panels
+merge_distance_m: 1.0
 
-# Text prompts for PV detection (must end with ".")
-# Run each prompt separately to avoid cross-associations.
+# Text prompts for individual PV panel detection (must end with ".")
+# Singular, specific prompts to avoid detecting entire buildings/arrays.
 prompts:
-  - "solar panel."
-  - "photovoltaic panel."
-  - "ground-mounted solar panel array."
-  - "photovoltaic solar farm."
-  - "rooftop solar panels."
+  - "one solar panel."
+  - "single solar panel."
+  - "individual photovoltaic module."
+  - "one rooftop solar panel."
+  - "one solar cell."
 
 # Model cache location (relative to project root)
 model_cache: sandbox/models/langsam

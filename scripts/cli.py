@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-tarraco_rois CLI — Main entry point for PV detection pipeline.
+georefocus CLI — Main entry point for PV detection pipeline.
 
 Usage:
-    python -m tarraco_rois run --module langsam
-    python -m tarraco_rois modules
-    python -m tarraco_rois config --check
+    python -m georefocus run --module langsam
+    python -m georefocus modules
+    python -m georefocus config --check
 """
 
 from __future__ import annotations
@@ -56,7 +56,7 @@ def load_module_config(module_name: str) -> dict:
 @click.group()
 @click.version_option(version="0.1.0")
 def cli():
-    """tarraco-rois — PV detection from aerial imagery."""
+    """georefocus — PV detection from aerial imagery."""
     pass
 
 

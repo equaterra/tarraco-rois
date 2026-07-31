@@ -102,11 +102,11 @@ NMS_IOU_THRESHOLD = float(config.get("nms_iou_threshold", 0.5))
 # Run one prompt at a time to avoid unwanted cross-associations.
 # ---------------------------------------------------------------------------
 PV_PROMPTS: list[str] = [
-    "solar panel.",
-    "photovoltaic panel.",
-    "ground-mounted solar panel array.",
-    "photovoltaic solar farm.",
-    "rooftop solar panels.",
+    "one solar panel.",
+    "single solar panel.",
+    "individual photovoltaic module.",
+    "one rooftop solar panel.",
+    "one solar cell.",
 ]
 
 
@@ -960,6 +960,129 @@ def main(ortho_path, grid_path, tile_id, process_donut, overlap_fraction,
 
     click.echo(f"\nMerged GeoJSON: {merged_path}")
     click.echo(f"Output: {RAW_DIR}\n")
+
+
+# ---------------------------------------------------------------------------
+# File-based wrapper (unified interface with owlv2, clipseg modules)
+# ---------------------------------------------------------------------------
+
+def run_langsam_file(
+    tif_path: Path,
+    output_dir: Optional[Path] = None,
+    building_id: str = "building",
+    log_metadata: dict | None = None,
+) -> dict:
+    t0 = time.time()
+    output_dir = output_dir or RAW_DIR
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    log.info("LangSAM: reading %s", tif_path)
+    with rasterio.open(tif_path) as src:
+        img_np = src.read([1, 2, 3]).transpose(1, 2, 0)
+        transform = src.transform
+
+    pil_img = Image.fromarray(img_np)
+
+    get_model()
+    box_th = module_config.get("box_threshold", 0.55)
+    text_th = module_config.get("text_threshold", 0.45)
+    tile_size = module_config.get("subtile_size_px", 512)
+    overlap = module_config.get("subtile_overlap_px", 64)
+
+    results = run_langsam(
+        pil_img, transform,
+        box_threshold=box_th,
+        text_threshold=text_th,
+        use_tiling=True,
+        subtile_size=tile_size,
+        subtile_overlap=overlap,
+    )
+
+    raw_count = len(results)
+    log.info("LangSAM: %d raw detections", raw_count)
+
+    polys = [r["polygon"] for r in results]
+    scores = [r["score"] for r in results]
+
+    min_area = module_config.get("min_polygon_area_m2", MIN_POLYGON_AREA_M2)
+    max_area = module_config.get("max_polygon_area_m2", MAX_POLYGON_AREA_M2)
+    max_aspect = module_config.get("max_aspect_ratio", MAX_ASPECT_RATIO)
+    merge_dist = module_config.get("merge_distance_m", MERGE_DISTANCE_M)
+
+    # area filter
+    keep = [(p, s) for p, s in zip(polys, scores) if min_area <= p.area <= max_area]
+    if not keep:
+        polys, scores = [], []
+    else:
+        polys, scores = zip(*keep)
+        polys = list(polys)
+        scores = list(scores)
+        # aspect ratio filter
+        keep2 = []
+        for p, s in zip(polys, scores):
+            if not p.is_valid:
+                p = p.buffer(0)
+            if p.is_empty:
+                continue
+            bounds = p.bounds
+            w = bounds[2] - bounds[0]
+            h = bounds[3] - bounds[1]
+            if w == 0 or h == 0:
+                continue
+            if max(w, h) / min(w, h) <= max_aspect:
+                keep2.append((p, s))
+        if keep2:
+            polys, scores = zip(*keep2)
+            polys = list(polys)
+            scores = list(scores)
+        else:
+            polys, scores = [], []
+        # merge nearby
+        if polys and merge_dist > 0:
+            from shapely.ops import unary_union
+            from shapely.geometry import MultiPolygon
+            merged = unary_union([p.buffer(merge_dist / 2) for p in polys])
+            if merged.geom_type == "MultiPolygon":
+                kept = [p for p in merged.geoms if p.area >= min_area]
+                polys = kept if kept else []
+            elif merged.geom_type == "Polygon":
+                polys = [merged] if merged.area >= min_area else []
+            else:
+                polys = []
+
+    meta = {
+        "model": "langsam",
+        "building_id": building_id,
+        "detections": len(polys),
+        "raw_detections": raw_count,
+        "box_threshold": box_th,
+        "text_threshold": text_th,
+        "subtile_size_px": tile_size,
+        "subtile_overlap_px": overlap,
+        "time_s": round(time.time() - t0, 2),
+    }
+
+    geo_out = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": mapping(p),
+                "properties": {"id": f"{building_id}_{i:04d}", "score": round(float(s), 3)},
+            }
+            for i, (p, s) in enumerate(zip(polys, scores))
+        ],
+    }
+    geojson_path = output_dir / f"{building_id}.geojson"
+    with open(geojson_path, "w") as f:
+        json.dump(geo_out, f, indent=2)
+
+    yaml_path = output_dir / f"{building_id}_meta.yaml"
+    with open(yaml_path, "w") as f:
+        yaml.dump(meta, f)
+
+    log.info("LangSAM: %s (%d features)", geojson_path, len(polys))
+    return meta
 
 
 if __name__ == "__main__":

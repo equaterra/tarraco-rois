@@ -19,4 +19,4 @@ services:
     #         - driver: nvidia
     #           count: all
     #           capabilities: [gpu]
-    command: python -m tarraco_rois --help
+    command: python -m georefocus --help

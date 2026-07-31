@@ -1,4 +1,4 @@
-# tarraco-rois — Pla del projecte
+# georefocus — Pla del projecte
 
 ## Visió general
 
@@ -16,7 +16,7 @@ Sistematitzar la experimentació amb diferents models de segmentació per detect
 ## Estructura de carpetes
 
 ```
-tarraco-rois/
+georefocus/
 ├── README.md                    # Documentació principal
 ├── PLAN.md                      # Aquest fitxer
 ├── AGENTS.md                    # Per treballar amb IA
@@ -86,26 +86,26 @@ tarraco-rois/
 
 ```bash
 # Executar un mòdul
-python -m tarraco_rois run --module langsam --ortho sandbox/data/ortho/ortofoto.tif
+python -m georefocus run --module langsam --ortho sandbox/data/ortho/ortofoto.tif
 
 # Executar múltiples mòduls
-python -m tarraco_rois run --module langsam,sam2 --ortho sandbox/data/ortho/ortofoto.tif
+python -m georefocus run --module langsam,sam2 --ortho sandbox/data/ortho/ortofoto.tif
 
 # Amb paràmetres específics del mòdul
-python -m tarraco_rois run --module langsam --ortho ... --params box_threshold=0.4
+python -m georefocus run --module langsam --ortho ... --params box_threshold=0.4
 
 # Llistar mòduls disponibles
-python -m tarraco_rois modules
+python -m georefocus modules
 
 # Validar configuració
-python -m tarraco_rois config --check
+python -m georefocus config --check
 ```
 
 ## Configuració
 
 ### Global (config.yaml)
 ```yaml
-project_name: tarraco-rois
+project_name: georefocus
 ortho_path: sandbox/data/ortho/  # Ruta relativa al projecte
 output_path: dist/masks/
 ```
@@ -146,8 +146,8 @@ prompts:
 - [x] Descarregar ortofoto de test (fetch_ortho)
 - [ ] Verificar que Docker funciona: `docker compose build`
 - [ ] Executar LangSAM en 2 rajoles de test
-- [ ] Verificar CLI: `python -m tarraco_rois modules`
-- [ ] Verificar CLI: `python -m tarraco_rois config --check`
+- [ ] Verificar CLI: `python -m georefocus modules`
+- [ ] Verificar CLI: `python -m georefocus config --check`
 
 ### Fase 3: Experimentació
 - [ ] Provar altres models (SAM2, GroundingDINO)
