@@ -2,7 +2,7 @@
 
 ## Visió del projecte
 
-tarraco-rois és un sistema modular per detectar instal·lacions fotovoltaiques (PV) en ortofotos aèries de Catalunya utilitzant models de segmentació amb prompts de text.
+georefocus és un sistema modular per detectar instal·lacions fotovoltaiques (PV) en ortofotos aèries de Catalunya utilitzant models de segmentació amb prompts de text.
 
 ## Estructura clau
 
@@ -41,16 +41,16 @@ tarraco-rois és un sistema modular per detectar instal·lacions fotovoltaiques 
 
 ```bash
 # Executar LangSAM en 2 rajoles de test
-python -m tarraco_rois run --module langsam --ortho sandbox/data/ortho/ortofoto.tif --tiles res/data/tiles/test/
+python -m georefocus run --module langsam --ortho sandbox/data/ortho/ortofoto.tif --tiles res/data/tiles/test/
 
 # Validar configuració
-python -m tarraco_rois config --check
+python -m georefocus config --check
 
 # Llistar mòduls
-python -m tarraco_rois modules
+python -m georefocus modules
 
 # Executar dins Docker
-docker compose run segmentation python -m tarraco_rois run --module langsam
+docker compose run segmentation python -m georefocus run --module langsam
 ```
 
 ## Errors comuns

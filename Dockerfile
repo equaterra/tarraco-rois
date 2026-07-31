@@ -20,4 +20,4 @@ RUN pip install --no-cache-dir "transformers==4.46.3"
 COPY . /app
 
 # Default command
-CMD ["python", "-m", "tarraco_rois", "--help"]
+CMD ["python", "-m", "georefocus", "--help"]

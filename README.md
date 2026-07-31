@@ -1,4 +1,4 @@
-# tarraco-rois
+# georefocus
 
 Sistema modular per detectar instal·lacions fotovoltaiques (PV) en ortofotos aèries de Catalunya.
 
@@ -9,7 +9,7 @@ Utilitza models de segmentació amb prompts de text (LangSAM, SAM2, etc.) per de
 ## Estructura
 
 ```
-tarraco-rois/
+georefocus/
 ├── modules/          # Mòdules de processament (versionats)
 ├── res/              # Recursos del projecte (versionats)
 ├── sandbox/          # Treball temporal (NO versionat)
@@ -27,7 +27,7 @@ tarraco-rois/
 Edita `config.yaml` amb les rutes del teu sistema:
 
 ```yaml
-project_name: tarraco-rois
+project_name: georefocus
 ortho_path: sandbox/data/ortho/  # Ruta a les ortofotos
 output_path: dist/masks/         # Ruta de sortida
 ```
@@ -42,34 +42,34 @@ pip install -r requirements.txt
 
 ```bash
 # Executar LangSAM en 2 rajoles de test
-python -m tarraco_rois run --module langsam
+python -m georefocus run --module langsam
 
 # Executar amb paràmetres específics
-python -m tarraco_rois run --module langsam --ortho path/to/ortho.tif --tiles path/to/tiles/
+python -m georefocus run --module langsam --ortho path/to/ortho.tif --tiles path/to/tiles/
 ```
 
 ### 4. Docker (recomanat)
 
 ```bash
 docker compose build
-docker compose run segmentation python -m tarraco_rois run --module langsam
+docker compose run segmentation python -m georefocus run --module langsam
 ```
 
 ## CLI
 
 ```bash
 # Executar mòdul(s)
-python -m tarraco_rois run --module langsam
-python -m tarraco_rois run --module langsam,sam2
+python -m georefocus run --module langsam
+python -m georefocus run --module langsam,sam2
 
 # Llistar mòduls disponibles
-python -m tarraco_rois modules
+python -m georefocus modules
 
 # Validar configuració
-python -m tarraco_rois config --check
+python -m georefocus config --check
 
 # Ajuda
-python -m tarraco_rois --help
+python -m georefocus --help
 ```
 
 ## Mòduls
@@ -88,7 +88,7 @@ python -m tarraco_rois --help
 
 ### Global (`config.yaml`)
 ```yaml
-project_name: tarraco-rois
+project_name: georefocus
 ortho_path: sandbox/data/ortho/
 output_path: dist/masks/
 ```

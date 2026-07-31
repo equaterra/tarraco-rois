@@ -1,4 +1,4 @@
-"""tarraco_rois — PV detection from aerial imagery."""
+"""georefocus — PV detection from aerial imagery."""
 
 from scripts.cli import cli
 

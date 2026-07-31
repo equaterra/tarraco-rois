@@ -1,6 +1,6 @@
-# tarraco-rois configuration
+# georefocus configuration
 
-project_name: tarraco-rois
+project_name: georefocus
 version: "0.1.0"
 
 # Paths (relative to project root)
@@ -13,7 +13,7 @@ default_module: langsam
 
 # Docker settings
 docker:
-  image: tarraco-rois
+  image: georefocus
   gpu: true
 
 # WMS/WMTS services for orthophoto download

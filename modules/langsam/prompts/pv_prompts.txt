@@ -1,5 +1,5 @@
-solar panel.
-photovoltaic panel.
-ground-mounted solar panel array.
-photovoltaic solar farm.
-rooftop solar panels.
+one solar panel.
+single solar panel.
+individual photovoltaic module.
+one rooftop solar panel.
+one solar cell.

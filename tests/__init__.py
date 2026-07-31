@@ -1,1 +1,1 @@
-"""tarraco-rois tests."""
+"""georefocus tests."""

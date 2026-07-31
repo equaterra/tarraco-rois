@@ -1,1 +1,1 @@
-"""tarraco-rois modules — PV detection pipeline components."""
+"""georefocus modules — PV detection pipeline components."""
